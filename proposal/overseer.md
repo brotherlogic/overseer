@@ -49,4 +49,7 @@ the failure. We can use the stored output to track the state of the system and t
 
 ## Tasks
 
-1.  
+1.  Write basic overseer proto config
+1.  Write shell of overseer server
+1.  Implement config receiving - store config and validation setup
+1.  Imoplement retrieval of config with validation results
