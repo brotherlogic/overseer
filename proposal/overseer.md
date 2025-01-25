@@ -49,7 +49,9 @@ the failure. We can use the stored output to track the state of the system and t
 
 ## Tasks
 
-1.  Write basic overseer proto config
-1.  Write shell of overseer server
-1.  Implement config receiving - store config and validation setup
-1.  Imoplement retrieval of config with validation results
+1. Write basic overseer proto config
+1. Write shell of overseer server with empty service endpoints
+1. Implement config receiving - store config and validation setup
+1. Imoplement retrieval of config with validation results
+1. Write piece to store callback to the validation owner and request validation
+1. Update githubridge to support tag setting and tag retrieval
