@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package overseer;
+
+option go_package = "github.com/brotherlogic/overseer.proto";
+
+message OverseerTask {
+    string callback = 1;
+    string task = 2;
+}
+
+message RegisterTaskRequest{
+    string callback = 1;
+    string task = 2;
+}
+
+message RegisterTaskResponse {}
+
+service OverseerService {
+    rpc RegisterTask(RegisterTaskRequest) returns (RegisterTaskResponse);
+}
+
+message OverseerRequest {
+    string task = 1;
+}
+
+message OverseerResponse {}
+
+service OverseerClient {
+    rpc Overseer(OverseerRequest) returns (OverseerResponse);
+}
