@@ -4,9 +4,29 @@ package overseer;
 
 option go_package = "github.com/brotherlogic/overseer.proto";
 
+enum ValidationResponse {
+    VALIDATION_UNKNOWN = 0;
+    VALIDATION_FAILED_UNSTABLE = 1;
+    VALIDATION_FAILED = 2;
+    VALIDATION_PASSED = 3;
+}
+
+message Config {
+    repeated OverseerTask tasks = 1;
+}
+
+message ValidationRun {
+    int64 timestamp_ms = 1;
+    ValidationResponse response = 2;
+    string canonical_code = 3;
+}
+
 message OverseerTask {
-    string callback = 1;
-    string task = 2;
+    string uuid = 1;
+    string callback = 2;
+    string task = 3;
+
+    repeated ValidationRun validation_runs = 4;
 }
 
 message RegisterTaskRequest{
