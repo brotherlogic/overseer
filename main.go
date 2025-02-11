@@ -13,6 +13,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/known/anypb"
 
 	pb "github.com/brotherlogic/overseer/proto"
 	pspb "github.com/brotherlogic/pstore/proto"
@@ -35,21 +36,34 @@ type Server struct {
 	Pclient pstoreclient.PStoreClient
 }
 
-func (s *Server) loadConfig(ctx context.Context) {
+func (s *Server) loadConfig(ctx context.Context) (*pb.Config, error) {
 	// Load the config
 	val, err := s.Pclient.Read(ctx, &pspb.ReadRequest{
 		Key: CONFIG_KEY,
 	})
 	if err != nil && status.Code(err) != codes.NotFound {
-		log.Fatalf("Failure to read config: %v", err)
+		return nil, fmt.Errorf("Failure to read config: %w", err)
 	}
 
 	config := &pb.Config{}
 	err = proto.Unmarshal(val.GetValue().GetValue(), config)
 	if err != nil {
-		log.Fatalf("Cannot unmarshal config: %v", err)
+		return nil, fmt.Errorf("Cannot unmarshal config: %w", err)
+	}
+	return config, err
+}
+
+func (s Server) saveConfig(ctx context.Context, config *pb.Config) error {
+	data, err := proto.Marshal(config)
+	if err != nil {
+		return err
 	}
 
+	_, err = s.Pclient.Write(ctx, &pspb.WriteRequest{
+		Key:   CONFIG_KEY,
+		Value: &anypb.Any{Value: data},
+	})
+	return err
 }
 
 func main() {
