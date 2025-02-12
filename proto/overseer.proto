@@ -11,25 +11,43 @@ enum ValidationResponse {
     VALIDATION_PASSED = 3;
 }
 
+enum RepoChange {
+    REPO_CHANGE_UNKNOWN = 0;
+    REPO_CHANGE_DO_NOTHING = 1;
+    REPO_CHANGE_BUMP_MAJOR_VERSION = 2;
+}
+
 message Config {
     repeated OverseerTask tasks = 1;
 }
 
 message ValidationRun {
     int64 timestamp_ms = 1;
+    string running_version = 4;
+
     ValidationResponse response = 2;
     string canonical_code = 3;
+}
+
+message RepoAction {
+    int64 timestamp_ms = 1;
+    string recordded_version = 2;
+    RepoChange action = 3;
+    string new_version = 4;
 }
 
 message OverseerTask {
     string uuid = 1;
     string callback = 2;
     string task = 3;
+    string repo = 7;
 
     repeated ValidationRun validation_runs = 4;
     
     int64 delay_in_s = 5;
     bool run_on_change = 6;
+
+    RepoChange repo_change = 8;
 }
 
 message RegisterTaskRequest{
