@@ -98,6 +98,10 @@ func main() {
 		log.Fatalf("gramophile has closed the grpc port for some reason")
 	}()
 
+	go func() {
+		s.runBackground()
+	}()
+
 	http.Handle("/metrics", promhttp.Handler())
 	err = http.ListenAndServe(fmt.Sprintf(":%v", *metrics_port), nil)
 	log.Fatalf("gramophile is unable to serve metrics: %v", err)

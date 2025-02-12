@@ -27,6 +27,9 @@ message OverseerTask {
     string task = 3;
 
     repeated ValidationRun validation_runs = 4;
+    
+    int64 delay_in_s = 5;
+    bool run_on_change = 6;
 }
 
 message RegisterTaskRequest{
@@ -44,7 +47,9 @@ message OverseerRequest {
     string task = 1;
 }
 
-message OverseerResponse {}
+message OverseerResponse {
+    ValidationResponse response = 1;
+}
 
 service OverseerClient {
     rpc Overseer(OverseerRequest) returns (OverseerResponse);
