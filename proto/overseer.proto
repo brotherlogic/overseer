@@ -14,7 +14,8 @@ enum ValidationResponse {
 enum RepoChange {
     REPO_CHANGE_UNKNOWN = 0;
     REPO_CHANGE_DO_NOTHING = 1;
-    REPO_CHANGE_BUMP_MAJOR_VERSION = 2;
+    REPO_CHANGE_BUMP_MILESTONE_VERSION = 2;
+    REPO_CHANGE_BUMP_STABLE_VERSION = 3;
 }
 
 message Config {
